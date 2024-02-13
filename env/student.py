@@ -162,7 +162,7 @@ class Student:
 
         #radio buttons
         self.var_radio1=StringVar()
-        radiobtn1=ttk.Radiobutton(left_frame_class_sudent,variable=self.var_radio1,text="Take a Photo Sample",value="YES")
+        radiobtn1=ttk.Radiobutton(left_frame_class_sudent,variable=self.var_radio1,command=self.generate_dataset,text="Take a Photo Sample",value="YES")
         radiobtn1.grid(row=4,column=2,padx=20,sticky=W,pady=10)
 
         #radio buttons
@@ -189,13 +189,13 @@ class Student:
         Reset_btn=Button(button_frame_class_sudent,text="Reset",command=self.reset_data,font=("times new roman",12,"bold"),bg="yellow",fg="white",width=10)
         Reset_btn.grid(row=0,column=3,pady=10,padx=20)
 
-        #take photo sample
-        takephoto_btn=Button(button_frame_class_sudent,command=self.generate_dataset,text="Take a Photo",font=("times new roman",12,"bold"),bg="blue",fg="white",width=10)
-        takephoto_btn.grid(row=1,column=0,pady=5,padx=20)
+        # #take photo sample
+        # takephoto_btn=Button(button_frame_class_sudent,command=self.generate_dataset,text="Take a Photo",font=("times new roman",12,"bold"),bg="blue",fg="white",width=10)
+        # takephoto_btn.grid(row=1,column=0,pady=5,padx=20)
         
-        #update photo sample
-        updatephoto_btn=Button(button_frame_class_sudent,text="Update Photo",font=("times new roman",12,"bold"),bg="blue",fg="white",width=10)
-        updatephoto_btn.grid(row=1,column=3,pady=5,padx=20)
+        # #update photo sample
+        # updatephoto_btn=Button(button_frame_class_sudent,text="Update Photo",font=("times new roman",12,"bold"),bg="blue",fg="white",width=10)
+        # updatephoto_btn.grid(row=1,column=3,pady=5,padx=20)
 
 
 
@@ -312,7 +312,7 @@ class Student:
               conn.commit()
               self.fetch_data()
               conn.close()
-              messagebox.showinfo('Success','Student Details Has been addes Successfully',parent=self.root)
+              messagebox.showinfo('Success','Student Details Has been added Successfully',parent=self.root)
             
             except Exception as es:
                 messagebox.showerror('Error',f"Due To : {str(es)}",parent=self.root)
@@ -466,7 +466,7 @@ class Student:
                     ))
                 conn.commit()
                 self.fetch_data()
-                self.reset_data()
+                # self.reset_data()
                 conn.close()
 
                 # **************************** LOAD PREDEFIEND DATA FROM OPEN CV *************************
@@ -513,7 +513,7 @@ class Student:
                         break
 
                 cap.release()
-                cv2.destroyAllWindows()
+                # cv2.destroyAllWindows()
                 messagebox.showinfo("Result", "Generating data Set completed Successfully")
 
             except Exception as es:

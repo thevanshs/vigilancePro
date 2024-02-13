@@ -48,54 +48,36 @@ class face_reco:
                 id, predict = clf.predict(gray_img[y:y+h, x:x+w])
                 confidence = int((100 * (1 - predict/300)))
 
-                conn = mysql.connector.connect(host='localhost', username='root', password='9917', database='vigilancepro')
-                my_cursor = conn.cursor()
+                try:
+                    conn = mysql.connector.connect(host='localhost', username='root', password='9917', database='vigilancepro')
+                    my_cursor = conn.cursor()
 
-                my_cursor.execute("select name from student where id="+str(id))
-                i = my_cursor.fetchone()
-                if i is not None:
-                    i = "+".join(i)
-                else:
-                    i = ""  # or whatever default value you want
+                    my_cursor.execute("select name from student where id=" + str(id))
+                    i = my_cursor.fetchone()
+                    if i is not None:
+                        i = "+".join(i)
+                    else:
+                        i = ""  # or whatever default value you want
 
-                my_cursor.execute("select roll from student where id="+str(id))
-                j = my_cursor.fetchone()
-                if j is not None:
-                    j = "+".join(j)
-                else:
-                    j = ""  # or whatever default value you want
+                    my_cursor.execute("select department from student where id=" + str(id))
+                    j = my_cursor.fetchone()
+                    if j is not None:
+                        j = "+".join(j)
+                    else:
+                        j = ""  # or whatever default value you want
 
-                my_cursor.execute("select department from student where id="+str(id))
-                k = my_cursor.fetchone()
-                if k is not None:
-                    k = "+".join(k)
-                else:
-                    k = ""  # or whatever default value you want
+                    # Repeat this error handling for other queries as well
 
-                my_cursor.execute("select course from student where id="+str(id))
-                l = my_cursor.fetchone()
-                if l is not None:
-                    l = "+".join(l)
-                else:
-                    l = ""  # or whatever default value you want
-
-                my_cursor.execute("select year from student where id="+str(id))
-                m = my_cursor.fetchone()
-                if m is not None:
-                    m = "+".join(m)
-                else:
-                    m = ""  # or whatever default value you want
-
-                my_cursor.execute("select sem from student where id="+str(id))
-                n = my_cursor.fetchone()
-                if n is not None:
-                    n = "+".join(n)
-                else:
-                    n = ""  # or whatever default value you want
+                except mysql.connector.Error as error:
+                    print("Error fetching data from MySQL:", error)
+                finally:
+                    if conn.is_connected():
+                        my_cursor.close()
+                        conn.close()
 
                 if confidence > 75:
-                    cv2.putText(img, f"RollNo:{j}", (x, y-55), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
-                    cv2.putText(img, f"Name:{i}", (x, y-30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
+                    cv2.putText(img, f"Department:{j}", (x, y-55), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 1)
+                    cv2.putText(img, f"Name:{i}", (x, y-30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 1)
 
                 else:
                     cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 3)
@@ -111,7 +93,7 @@ class face_reco:
 
         faceCascade=cv2.CascadeClassifier(r"C:\Users\vansh\vansh\ATTENDANCE\env\haarcascade_frontalface_default.xml")
         clf=cv2.face.LBPHFaceRecognizer_create()
-        clf.read(r"C:\Users\vansh\vansh\ATTENDANCE\env\classifier.xml")
+        clf.read(r"C:\Users\vansh\vansh\ATTENDANCE\classifier.xml")
 
         video_cap=cv2.VideoCapture(0)
         video_cap=cv2.VideoCapture(0, cv2.CAP_DSHOW)
