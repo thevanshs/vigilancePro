@@ -2,6 +2,8 @@ from tkinter import *
 from PIL import Image,ImageTk
 import mysql.connector
 import cv2
+from time import strftime
+from datetime import datetime
 
 class face_reco:
     def __init__(self,root):
@@ -33,6 +35,24 @@ class face_reco:
         b2_txt=Button(f_lbl,text="Detect Face",font=("Roboto",12,"bold"),bg="black",fg="whitesmoke",cursor="hand2",command=self.reco)
         b2_txt.place(x=540,y=410,width=220,height=30)
 
+    # ************************ ATTENDANCE MARKED *************************************************
+
+    def mark_attendance(self,i,j):
+        with open(r"C:\Users\vansh\vansh\ATTENDANCE\env\vigilanceAttend.csv","r+",newline="\n") as f:
+            mydatalist = f.readlines()
+            name_list=[]
+            for line in mydatalist:
+                entry = line.split((","))
+                name_list.append(entry[0])
+            
+            if((i not in name_list)  and (j not in name_list)):
+                    now = datetime.now()
+                    d1 = now.strftime("%d/%m/%Y")
+                    dtstring =  now.strftime("%H:%M:/%S")
+                    f.writelines(f"\n{i},{j},{dtstring},{d1},Present")
+
+
+
 
     #********************* FACE RECO FUNC ***************************************************
 
@@ -59,7 +79,7 @@ class face_reco:
                     else:
                         i = ""  # or whatever default value you want
 
-                    my_cursor.execute("select department from student where id=" + str(id))
+                    my_cursor.execute("select roll from student where id=" + str(id))
                     j = my_cursor.fetchone()
                     if j is not None:
                         j = "+".join(j)
@@ -76,8 +96,9 @@ class face_reco:
                         conn.close()
 
                 if confidence > 75:
-                    cv2.putText(img, f"Department:{j}", (x, y-55), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 1)
-                    cv2.putText(img, f"Name:{i}", (x, y-30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 1)
+                    cv2.putText(img, f"Roll No :{j}", (x, y-55), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 1)
+                    cv2.putText(img, f"Name :{i}", (x, y-30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 1)
+                    self.mark_attendance(j,i)
 
                 else:
                     cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 3)
