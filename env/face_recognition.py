@@ -96,8 +96,8 @@ class face_reco:
                         conn.close()
 
                 if confidence > 75:
-                    cv2.putText(img, f"Roll No :{j}", (x, y-55), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 1)
-                    cv2.putText(img, f"Name :{i}", (x, y-30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 1)
+                    cv2.putText(img, f"Roll No :{j}", (x, y-55), cv2.FONT_HERSHEY_COMPLEX, 0.8, (0, 255, 0), 2)
+                    cv2.putText(img, f"Name :{i}", (x, y-30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (0 , 255, 0), 2)
                     self.mark_attendance(j,i)
 
                 else:
