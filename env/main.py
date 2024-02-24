@@ -3,7 +3,10 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from student import Student
 from train import traindata
+from attendance import attendance
 from face_recognition import face_reco
+from trespassing import Trespassing
+# import subprocess
 import os
 
 
@@ -61,11 +64,12 @@ class Face_recoginition_system:
         img4 = img4.resize((220, 220))
         self.photoimg4 = ImageTk.PhotoImage(img4)
 
-        b3 = Button(f_lbl, image=self.photoimg4, cursor="hand2")
+        b3 = Button(f_lbl, image=self.photoimg4, cursor="hand2",
+                    command=self.attendance_system)
         b3.place(x=700, y=100, width=220, height=220)
 
         b3_txt = Button(f_lbl, text="Attendance", font=(
-            "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2")
+            "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2", command=self.attendance_system)
         b3_txt.place(x=700, y=310, width=220, height=30)
 
         # Train data button
@@ -95,48 +99,36 @@ class Face_recoginition_system:
             "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2")
         b5_txt.place(x=100, y=610, width=220, height=30)
 
-        # Number Plate button
+        # Liveness Detection button
         img7 = Image.open(
-            r"C:\Users\vansh\vansh\ATTENDANCE\env\appimages\train data.png")
+            r"C:\Users\vansh\vansh\ATTENDANCE\env\appimages\Liveness Detection.jpg")
         img7 = img7.resize((220, 220))
         self.photoimg7 = ImageTk.PhotoImage(img7)
 
         b6 = Button(f_lbl, image=self.photoimg7, cursor="hand2")
         b6.place(x=400, y=400, width=220, height=220)
 
-        b6_txt = Button(f_lbl, text="Number Plate Recognition", font=(
+        b6_txt = Button(f_lbl, text="Liveness Detection", font=(
             "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2")
         b6_txt.place(x=400, y=610, width=220, height=30)
 
-        # Number Plate button
-        img8 = Image.open(
-            r"C:\Users\vansh\vansh\ATTENDANCE\env\appimages\train data.png")
-        img8 = img8.resize((220, 220))
-        self.photoimg8 = ImageTk.PhotoImage(img8)
 
-        b7 = Button(f_lbl, image=self.photoimg8, cursor="hand2")
-        b7.place(x=700, y=400, width=220, height=220)
-
-        b7_txt = Button(f_lbl, text="Number Plate Recognition", font=(
-            "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2")
-        b7_txt.place(x=700, y=610, width=220, height=30)
-
-        # Number Plate button
+        # Tresspassing Detector
         img9 = Image.open(
-            r"C:\Users\vansh\vansh\ATTENDANCE\env\appimages\train data.png")
+            r"C:\Users\vansh\vansh\ATTENDANCE\env\appimages\tresspassing.jpg")
         img9 = img9.resize((220, 220))
         self.photoimg9 = ImageTk.PhotoImage(img9)
 
-        b8 = Button(f_lbl, image=self.photoimg9, cursor="hand2")
+        b8 = Button(f_lbl, image=self.photoimg9, cursor="hand2",command=self.trespassing_system)
         b8.place(x=700, y=400, width=220, height=220)
 
-        b8_txt = Button(f_lbl, text="Number Plate Recognition", font=(
-            "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2")
+        b8_txt = Button(f_lbl, text="Tresspassing Detector", font=(
+            "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2",command=self.trespassing_system)
         b8_txt.place(x=700, y=610, width=220, height=30)
 
-        # Number Plate button
+        # Collected Data Sample
         img10 = Image.open(
-            r"C:\Users\vansh\vansh\ATTENDANCE\env\appimages\train data.png")
+            r"C:\Users\vansh\vansh\ATTENDANCE\env\appimages\data.png")
         img10 = img10.resize((220, 220))
         self.photoimg10 = ImageTk.PhotoImage(img10)
 
@@ -174,6 +166,17 @@ class Face_recoginition_system:
     def face_recognition(self):
         self.new_window = Toplevel(self.root)
         self.app = face_reco(self.new_window)
+
+# attendance func
+    def attendance_system(self):
+        self.new_window = Toplevel(self.root)
+        self.app = attendance(self.new_window)
+
+# trespassing_system func
+    def trespassing_system(self):
+        self.new_window = Toplevel(self.root)
+        self.app = Trespassing(self.new_window)
+        # subprocess.run(['python', r'C:\Users\vansh\vansh\ATTENDANCE\env\trespassing.py'])
 
 
 if __name__ == "__main__":

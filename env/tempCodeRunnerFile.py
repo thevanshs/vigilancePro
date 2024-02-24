@@ -1,1 +1,1 @@
-pady=10
+self.new_window = Toplevel(self.root)

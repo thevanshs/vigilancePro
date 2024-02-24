@@ -86,6 +86,20 @@ class face_reco:
                     else:
                         j = ""  # or whatever default value you want
 
+                    my_cursor.execute("select department from student where id=" + str(id))
+                    k = my_cursor.fetchone()
+                    if k is not None:
+                        k = "+".join(k)
+                    else:
+                        k = ""  # or whatever default value you want
+                    
+                    my_cursor.execute("select department from student where id=" + str(id))
+                    l = my_cursor.fetchone()
+                    if l is not None:
+                        l = "+".join(l)
+                    else:
+                        l = ""  # or whatever default value you want
+
                     # Repeat this error handling for other queries as well
 
                 except mysql.connector.Error as error:
@@ -130,8 +144,6 @@ class face_reco:
             else:
                 print("Failed to read frame")
                 break  # Add this line to indicate when frame reading fails
-
-
 
 if __name__ == "__main__":
     root=Tk()

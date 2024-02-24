@@ -24,7 +24,7 @@ class traindata:
         f_lbl.place(x=0, y=0, width=1366, height=720)
 
         # top label
-        title_lbl = Label(f_lbl, text="Tain Data Module", font=(
+        title_lbl = Label(f_lbl, text="Train Data Module", font=(
             "Roboto", 35, "bold"), bg="#00022D", fg="whitesmoke")
         title_lbl.place(x=0, y=0, width=1366, height=50)
 
