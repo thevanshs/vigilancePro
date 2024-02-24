@@ -112,18 +112,18 @@ class Face_recoginition_system:
             "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2")
         b6_txt.place(x=400, y=610, width=220, height=30)
 
-
         # Tresspassing Detector
         img9 = Image.open(
             r"C:\Users\vansh\vansh\ATTENDANCE\env\appimages\tresspassing.jpg")
         img9 = img9.resize((220, 220))
         self.photoimg9 = ImageTk.PhotoImage(img9)
 
-        b8 = Button(f_lbl, image=self.photoimg9, cursor="hand2",command=self.trespassing_system)
+        b8 = Button(f_lbl, image=self.photoimg9, cursor="hand2",
+                    command=self.trespassing_system)
         b8.place(x=700, y=400, width=220, height=220)
 
         b8_txt = Button(f_lbl, text="Tresspassing Detector", font=(
-            "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2",command=self.trespassing_system)
+            "Roboto", 12, "bold"), bg="black", fg="whitesmoke", cursor="hand2", command=self.trespassing_system)
         b8_txt.place(x=700, y=610, width=220, height=30)
 
         # Collected Data Sample

@@ -9,8 +9,12 @@ import cv2
 import os
 import numpy as np
 
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')     
-body_cascade = cv2.CascadeClassifier(r"C:\Users\vansh\vansh\ATTENDANCE\env\haarcascade_fullbody.xml")  # Replace "path_to_full_body_cascade.xml" with the path to your full-body cascade XML file
+face_cascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+# Replace "path_to_full_body_cascade.xml" with the path to your full-body cascade XML file
+body_cascade = cv2.CascadeClassifier(
+    r"C:\Users\vansh\vansh\ATTENDANCE\env\haarcascade_fullbody.xml")
+
 
 class Trespassing:
     def __init__(self, root):
@@ -38,7 +42,8 @@ class Trespassing:
         img3 = img3.resize((220, 220))
         self.photoimg3 = ImageTk.PhotoImage(img3)
 
-        b2 = Button(f_lbl, image=self.photoimg3, cursor="hand2", command=self.detect_movement_window)
+        b2 = Button(f_lbl, image=self.photoimg3, cursor="hand2",
+                    command=self.detect_movement_window)
         b2.place(x=540, y=200, width=220, height=220)
 
         b2_txt = Button(f_lbl, text="Detect Movement", font=("Roboto", 12, "bold"),
@@ -62,24 +67,26 @@ class Trespassing:
         _, thresh = cv2.threshold(frame_diff, 30, 255, cv2.THRESH_BINARY)
 
         # Find contours
-        contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(
+            thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         # Check if any contours are detected
         for contour in contours:
             # Compute area of contour
             area = cv2.contourArea(contour)
-            
+
             # Set minimum area threshold for movement detection
             min_area_threshold = 1000
-            
+
             # If contour area exceeds threshold, consider it as movement
             if area > min_area_threshold:
                 # Draw bounding box around detected contours
                 (x, y, w, h) = cv2.boundingRect(contour)
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                
+
                 # Display alarm message on screen
-                cv2.putText(frame, "Movement Detected!", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+                cv2.putText(frame, "Movement Detected!", (50, 50),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
                 # Play alarm sound
                 winsound.PlaySound("SystemAsterisk", winsound.SND_ALIAS)
@@ -97,7 +104,8 @@ class Trespassing:
         # Draw bounding box around detected faces
         for (x, y, w, h) in faces:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
-            cv2.putText(frame, 'Face', (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+            cv2.putText(frame, 'Face', (x, y-10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
 
         # Return True if faces are detected, False otherwise
         return len(faces) > 0
@@ -113,14 +121,16 @@ class Trespassing:
         # Draw bounding box around detected bodies
         for (x, y, w, h) in bodies:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-            cv2.putText(frame, 'Body', (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+            cv2.putText(frame, 'Body', (x, y-10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
 
         # Return True if bodies are detected, False otherwise
         return len(bodies) > 0
-    
+
     def detect_movement_window(self):
         # Read video stream
-        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # Use 0 for webcam, or provide path to video file
+        # Use 0 for webcam, or provide path to video file
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
         # Capture initial frame for reference
         _, roi = cap.read()
@@ -138,7 +148,8 @@ class Trespassing:
             body_detected = self.detect_bodies(frame)
 
             # Detect human movement only if a face or body is detected
-            frame = self.detect_movement(frame, roi, face_detected, body_detected)
+            frame = self.detect_movement(
+                frame, roi, face_detected, body_detected)
 
             # Display resulting frame
             cv2.imshow("Human Movement Detection", frame)
